@@ -1,7 +1,10 @@
 package models;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 
 /**
  *
@@ -11,11 +14,12 @@ public class CuadrilateroModel extends FiguraModel {
 
 	public CuadrilateroModel() {
 		super();
+		nombre = "Cuadrilatero";
 		puntos = new PointsModel(4);
 	}
 
 	@Override
-	public void dibujar(Graphics g) {
+	public void dibujar(Graphics2D g) {
 
 		puntos.dibujar(g);
 
@@ -24,6 +28,7 @@ public class CuadrilateroModel extends FiguraModel {
 		}
 		
 		if (isSelected()) {
+			g.setStroke(new BasicStroke(10));
 			g.setColor(Color.RED);
 		}else{
 			g.setColor(background);
@@ -31,6 +36,7 @@ public class CuadrilateroModel extends FiguraModel {
 		
 		g.drawPolygon(puntos.getXPoints(), puntos.getYPoints(), puntos.size());
 		
+		g.setStroke(new BasicStroke(1));
 		g.setColor(background);
 		g.fillPolygon(puntos.getXPoints(), puntos.getYPoints(), puntos.size());
 		

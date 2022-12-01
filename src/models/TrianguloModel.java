@@ -1,9 +1,8 @@
 package models;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.util.Iterator;
+import java.awt.Graphics2D;
 
 /**
  *
@@ -13,11 +12,12 @@ public class TrianguloModel extends FiguraModel {
 
 	public TrianguloModel() {
 		super();
+		nombre = "Triangulo";
 		puntos = new PointsModel(3);
 	}
 
 	@Override
-	public void dibujar(Graphics g) {
+	public void dibujar(Graphics2D g) {
 
 		puntos.dibujar(g);
 
@@ -26,6 +26,7 @@ public class TrianguloModel extends FiguraModel {
 		}
 
 		if (isSelected()) {
+			g.setStroke(new BasicStroke(10));
 			g.setColor(Color.RED);
 		}else{
 			g.setColor(background);
@@ -33,6 +34,7 @@ public class TrianguloModel extends FiguraModel {
 		
 		g.drawPolygon(puntos.getXPoints(), puntos.getYPoints(), puntos.size());
 		
+		g.setStroke(new BasicStroke(1));
 		g.setColor(background);
 		g.fillPolygon(puntos.getXPoints(), puntos.getYPoints(), puntos.size());
 		

@@ -1,6 +1,7 @@
 package models;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
@@ -40,6 +41,13 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 		} catch (Exception ex) {
 			return null;
 		}
+	}
+
+	public static int distance(Point p1, Point p2) {
+
+		int aux = (int) (Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+
+		return (int) Math.sqrt(aux);
 	}
 
 	public int size() {
@@ -84,7 +92,7 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 	}
 
 	@Override
-	public void dibujar(Graphics g) {
+	public void dibujar(Graphics2D g) {
 
 		for (var p : this) {
 

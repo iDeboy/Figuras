@@ -3,10 +3,6 @@ package models;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.AbstractListModel;
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 
 /**
  *
@@ -33,6 +29,14 @@ public class ListFigurasModel extends AbstractListModel<FiguraModel> implements 
 
 	}
 
+	public void unselectAll(){
+	
+		for (var model : this) {
+				model.setSelected(false);
+			}
+		
+	}
+	
 	public boolean addElement(FiguraModel figura) {
 
 		int index = indexOf(figura);

@@ -1,6 +1,6 @@
 package models;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  *
@@ -8,6 +8,6 @@ import java.awt.Graphics;
  */
 public interface IDrawable {
 
-	void dibujar(Graphics g);
+	void dibujar(Graphics2D g);
 
 }

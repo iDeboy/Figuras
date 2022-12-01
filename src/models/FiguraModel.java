@@ -13,6 +13,7 @@ import java.util.Random;
 public abstract class FiguraModel implements Iterable<Point>, IDrawable {
 
 	private int id;
+	protected String nombre;
 	protected PointsModel puntos;
 	protected Color background;
 	protected boolean selected;
@@ -21,6 +22,7 @@ public abstract class FiguraModel implements Iterable<Point>, IDrawable {
 
 	protected FiguraModel() {
 		id = generateId();
+		nombre = "Figura";
 		background = Color.BLACK;
 		selected = false;
 	}
@@ -36,7 +38,6 @@ public abstract class FiguraModel implements Iterable<Point>, IDrawable {
 		ids.add(id);
 
 		return id;
-//return new Random().nextInt()
 	}
 
 	public int getId() {
@@ -62,6 +63,10 @@ public abstract class FiguraModel implements Iterable<Point>, IDrawable {
 	public PointsModel getPuntos() {
 		return puntos;
 	}
+	
+	public String getNombre(){
+		return nombre;
+	}
 
 	public Iterator<Point> iterator() {
 		return puntos.iterator();
@@ -86,7 +91,7 @@ public abstract class FiguraModel implements Iterable<Point>, IDrawable {
 			
 		}
 
-		return getClass().getSimpleName() + "{\n" + String.join(", ", puntosStr) + "\n}";
+		return nombre + "{\n" + String.join(", \n", puntosStr) + "\n}";
 	}
 
 }

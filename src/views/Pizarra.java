@@ -6,6 +6,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import models.*;
 
 /**
@@ -143,7 +145,7 @@ public class Pizarra extends JFrame implements Runnable {
 
 				if (currentFigura.canDraw()) {
 					try {
-						//listFiguras.setListData(listModel.toArray());
+						logger.append(currentFigura.getNombre() + " creado.\n");
 						currentFigura = (FiguraModel) currentFigura.getClass().getConstructors()[0].newInstance(new Object[0]);
 					} catch (Exception ex) {
 
@@ -170,7 +172,17 @@ public class Pizarra extends JFrame implements Runnable {
 		rightPanelTitle.setFont(new Font("Montserrat", Font.BOLD, 24));
 
 		listModel = (ListFigurasModel) listFiguras.getModel();
-		
+		listFiguras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		listFiguras.addListSelectionListener((ListSelectionEvent e) -> {
+			
+			listModel.unselectAll();
+
+			listFiguras.getSelectedValue().setSelected(true);
+			logger.append(listFiguras.getSelectedValue().getNombre() + " seleccionado.\n");
+			repaint();
+		});
+
 		//canvasPanel.setModel(listModel);
 		scrollFiguras.setViewportView(listFiguras);
 
@@ -180,6 +192,7 @@ public class Pizarra extends JFrame implements Runnable {
 		add(leftPanel, BorderLayout.WEST);
 		add(centerPanel, BorderLayout.CENTER);
 		add(rightPanel, BorderLayout.EAST);
+
 	}
 
 	/* Variables declaration */

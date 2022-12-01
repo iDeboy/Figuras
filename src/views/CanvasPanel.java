@@ -3,7 +3,8 @@ package views;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import static java.awt.RenderingHints.KEY_ANTIALIASING;
+import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import models.ListFigurasModel;
@@ -37,12 +38,18 @@ public class CanvasPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		if(figurasModel == null) return;
+		if (figurasModel == null) {
+			return;
+		}
+
+		Graphics2D g2 = (Graphics2D) g;
+
+		g2.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
 		
 		System.out.println("Pintado figuras");
-		
+
 		for (var it : figurasModel) {
-			it.dibujar(g);
+			it.dibujar(g2);
 		}
 
 	}
