@@ -25,7 +25,7 @@ public abstract class FiguraModel implements Iterable<Point>, IDrawable {
 		selected = false;
 	}
 
-	private int generateId() {
+	private static int generateId() {
 
 		int id = new Random().nextInt(1, Integer.MAX_VALUE);
 

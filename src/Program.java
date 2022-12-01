@@ -3,7 +3,6 @@ import java.awt.EventQueue;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager;
 import views.Pizarra;
-import views.Pizarra2;
 
 /**
  *
@@ -29,7 +28,7 @@ public class Program {
 
 		}
 
-		EventQueue.invokeLater(new Pizarra2());
+		EventQueue.invokeLater(new Pizarra());
 	}
 
 }

@@ -8,6 +8,11 @@ import java.awt.Graphics;
  */
 public class CirculoModel extends FiguraModel {
 
+	public CirculoModel() {
+		super();
+		puntos = new PointsModel(2);
+	}
+	
 	@Override
 	public void dibujar(Graphics g) {
 	
