@@ -1,10 +1,10 @@
 package models;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 /**
@@ -58,6 +58,155 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 		return Arrays.asList(puntos).iterator();
 	}
 
+	public void up(int c) {
+
+		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
+
+		MatrixModel aux = new MatrixModel(3, 3, 1);
+
+		aux.traslacionAt(1, -c);
+
+		matrixPoints.producto(aux);
+
+		puntos = matrixPoints.toPoints();
+	}
+
+	public void down(int c) {
+
+		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
+
+		MatrixModel aux = new MatrixModel(3, 3, 1);
+
+		aux.traslacionAt(1, c);
+
+		matrixPoints.producto(aux);
+
+		puntos = matrixPoints.toPoints();
+
+	}
+
+	public void right(int c) {
+
+		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
+
+		MatrixModel aux = new MatrixModel(3, 3, 1);
+
+		aux.traslacionAt(0, c);
+
+		matrixPoints.producto(aux);
+
+		puntos = matrixPoints.toPoints();
+	}
+
+	public void left(int c) {
+
+		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
+
+		MatrixModel aux = new MatrixModel(3, 3, 1);
+
+		aux.traslacionAt(0, -c);
+
+		matrixPoints.producto(aux);
+
+		puntos = matrixPoints.toPoints();
+
+	}
+
+	public void rotateLeft(double angulo) {
+
+		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
+
+		MatrixModel aux = new MatrixModel(3, 3, 1);
+
+		var sorted = sort();
+
+		int[] nMin = new int[]{-sorted[0].x, -sorted[0].y};
+		int[] pMin = new int[]{sorted[0].x, sorted[0].y};
+		
+		aux.traslacion(nMin);
+		aux.rotacion(angulo);
+		aux.traslacion(pMin);
+
+		matrixPoints.producto(aux);
+
+		puntos = matrixPoints.toPoints();
+
+	}
+
+	public void rotateRight(double angulo) {
+
+		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
+
+		MatrixModel aux = new MatrixModel(3, 3, 1);
+		
+		var sorted = sort();
+
+		int[] nMin = new int[]{-sorted[0].x, -sorted[0].y};
+		int[] pMin = new int[]{sorted[0].x, sorted[0].y};
+
+		aux.traslacion(nMin);
+		aux.rotacion(-angulo);
+		aux.traslacion(pMin);
+
+		matrixPoints.producto(aux);
+
+		puntos = matrixPoints.toPoints();
+
+	}
+
+	public void zoomIn(int c) {
+
+		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
+
+		MatrixModel aux = new MatrixModel(3, 3, 1);
+
+		var sorted = sort();
+		
+		int[] nMin = new int[]{-sorted[0].x, -sorted[0].y};
+		int[] pMin = new int[]{sorted[0].x, sorted[0].y};
+		
+		aux.traslacion(nMin);
+		aux.escalar(c);
+		aux.traslacion(pMin);
+
+		matrixPoints.producto(aux);
+
+		puntos = matrixPoints.toPoints();
+
+	}
+
+	public void zoomOut(int c) {
+
+		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
+
+		MatrixModel aux = new MatrixModel(3, 3, 1);
+
+		var sorted = sort();
+		
+		int[] nMin = new int[]{-sorted[0].x, -sorted[0].y};
+		int[] pMin = new int[]{sorted[0].x, sorted[0].y};
+		
+		aux.traslacion(nMin);
+		aux.escalar(1/c);
+		aux.traslacion(pMin);
+
+		matrixPoints.producto(aux);
+
+		puntos = matrixPoints.toPoints();
+
+	}
+
+	public Point[] sort() {
+
+		Point[] aux = puntos.clone();
+
+		Arrays.sort(aux, (o1, o2) -> {
+			return o1.distance(0, 0) < o2.distance(0, 0) ? -1 : 1;
+		});
+
+		return aux;
+	}
+	
 	public int[] getXPoints() {
 
 		int[] xPoints = new int[size()];

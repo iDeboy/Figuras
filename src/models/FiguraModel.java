@@ -25,6 +25,7 @@ public abstract class FiguraModel implements Iterable<Point>, IDrawable {
 		nombre = "Figura";
 		background = Color.BLACK;
 		selected = false;
+		
 	}
 
 	private static int generateId() {

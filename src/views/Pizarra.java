@@ -81,38 +81,42 @@ public class Pizarra extends JFrame implements Runnable {
 				}
 
 				switch (e.getExtendedKeyCode()) {
-					case VK_W -> // Up
-
+					case VK_W -> {
+						// Up
+						selectedModel.getPuntos().up(5);
 						logger.append("[W ↑] " + selectedModel.getNombre() + "\n");
-					case VK_S -> // Down
-
+					}
+					case VK_S -> {// Down
+						selectedModel.getPuntos().down(5);
 						logger.append("[S ↓] " + selectedModel.getNombre() + "\n");
-
-					case VK_A -> // Left
-
+					}
+					case VK_A -> {// Left
+						selectedModel.getPuntos().left(5);
 						logger.append("[A ←] " + selectedModel.getNombre() + "\n");
-
-					case VK_D -> // Right
-
+					}
+					case VK_D -> {// Right
+						selectedModel.getPuntos().right(5);
 						logger.append("[D →] " + selectedModel.getNombre() + "\n");
-
-					case VK_Q -> // Rotate left
-
+					}
+					case VK_Q -> {// Rotate left
+						selectedModel.getPuntos().rotateLeft(90);
 						logger.append("[Q ↶] " + selectedModel.getNombre() + "\n");
-
-					case VK_E -> // Rotate right
-
+					}
+					case VK_E -> {// Rotate right
+						selectedModel.getPuntos().rotateRight(90);
 						logger.append("[E ↷] " + selectedModel.getNombre() + "\n");
-
-					case VK_SHIFT -> // Zoom in
-
-						logger.append("[Shift →|←] " + selectedModel.getNombre() + "\n");
-
-					case VK_CONTROL -> // Zoom out
-
-						logger.append("[Ctrl ←█→] " + selectedModel.getNombre() + "\n");
+					}
+					case VK_SHIFT -> { // Zoom in
+						selectedModel.getPuntos().zoomIn(2);
+						logger.append("[Shift ←█→] " + selectedModel.getNombre() + "\n");
+					}
+					case VK_CONTROL -> {// Zoom out
+						selectedModel.getPuntos().zoomOut(2);
+						logger.append("[Ctrl →|←] " + selectedModel.getNombre() + "\n");
+					}
 				}
 
+				repaint();
 			}
 
 		});

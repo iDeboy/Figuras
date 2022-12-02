@@ -45,8 +45,6 @@ public class CanvasPanel extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 
 		g2.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-		
-		System.out.println("Pintado figuras");
 
 		for (var it : figurasModel.sort()) {
 			it.dibujar(g2);

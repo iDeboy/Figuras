@@ -1,5 +1,6 @@
 package models;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -18,7 +19,11 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 	private ArrayList<Integer>[] matrix;
 
 	public MatrixModel(int rows, int columns) {
-		this(rows, columns, 0, false);
+		this(rows, columns, 0);
+	}
+
+	public MatrixModel(int rows, int columns, int diagonal) {
+		this(rows, columns, diagonal, false);
 	}
 
 	public MatrixModel(int orden) {
@@ -156,7 +161,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 
 	public static MatrixModel producto(MatrixModel matrix1, MatrixModel matrix2) {
 
-		if (matrix1.columns != matrix2.rows) {
+		if (matrix2.rows != matrix1.columns) {
 			return null;
 		}
 
@@ -178,6 +183,28 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 		}
 
 		return product;
+	}
+
+	public static MatrixModel matrixFromPoints(PointsModel points) {
+
+		MatrixModel aux = new MatrixModel(3, points.size());
+
+		int[] xs = points.getXPoints();
+		int[] ys = points.getYPoints();
+
+		for (int i = 0; i < xs.length; i++) {
+			aux.setValueAt(0, i, xs[i]);
+		}
+
+		for (int i = 0; i < ys.length; i++) {
+			aux.setValueAt(1, i, ys[i]);
+		}
+
+		for (int i = 0; i < points.size(); i++) {
+			aux.setValueAt(2, i, 1);
+		}
+
+		return aux;
 	}
 
 	@Override
@@ -229,6 +256,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 
 		producto(matrizEscala);
 	}
+
 
 	@Override
 	public void escalar(int[] escalas) {
@@ -291,7 +319,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 		for (int i = 0; i < ts.length; i++) {
 			traslacionAt(i, ts[i]);
 		}
-		
+
 	}
 
 	public static ArrayList<String> arrayIntToString(ArrayList<Integer> integers) {
@@ -338,6 +366,24 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 		result += "|\n";
 
 		return result;
+	}
+
+	public ArrayList<Integer>[] toArray() {
+		return matrix.clone();
+	}
+
+	public Point[] toPoints() {
+
+		Point[] points = new Point[columns];
+
+		for (int i = 0; i < columns; i++) {
+
+			points[i] = new Point(get(0, i), get(1, i));
+
+		}
+
+		return points;
+
 	}
 
 	public boolean isIdentity() {
