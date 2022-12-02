@@ -2,10 +2,8 @@ package models;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 /**
@@ -23,9 +21,8 @@ public class CirculoModel extends FiguraModel {
 	@Override
 	public void dibujar(Graphics2D g) {
 
-		puntos.dibujar(g);
-
 		if (!canDraw()) {
+			puntos.dibujar(g);
 			return;
 		}
 
@@ -40,12 +37,12 @@ public class CirculoModel extends FiguraModel {
 		Point p2 = puntos.getValueAt(1);
 
 		int distance = PointsModel.distance(p1, p2);
-		
-		g.drawOval(p1.x - distance, p1.y - distance, 2*distance, 2*distance);
 
-		g.setStroke(new BasicStroke(1));
+		g.drawOval(p1.x - distance, p1.y - distance, 2 * distance, 2 * distance);
+
+		g.setStroke(new BasicStroke(2));
 		g.setColor(background);
-		g.fillOval(p1.x - distance, p1.y - distance, 2*distance, 2*distance);
+		g.fillOval(p1.x - distance, p1.y - distance, 2 * distance, 2 * distance);
 
 		// Reset color
 		g.setColor(Color.BLACK);

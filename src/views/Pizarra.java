@@ -2,12 +2,15 @@ package views;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import models.*;
 
 /**
@@ -21,6 +24,7 @@ public class Pizarra extends JFrame implements Runnable {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1100, 700);
 		setLocationRelativeTo(null);
+		setFocusable(true);
 		setVisible(true);
 	}
 
@@ -50,6 +54,68 @@ public class Pizarra extends JFrame implements Runnable {
 		setTitle("Pizarra");
 		setResizable(false);
 		setLayout(new BorderLayout());
+
+		// Si la ventana pierde el foco del teclado, recuperarlo
+		KeyboardFocusManager.
+						getCurrentKeyboardFocusManager().
+						addPropertyChangeListener("focusOwner", (PropertyChangeEvent e) -> {
+							//System.out.println(e.toString());
+							requestFocusInWindow();
+						});
+
+		addKeyListener(new KeyAdapter() {
+
+			public void keyPressed(KeyEvent e) {
+
+				FiguraModel selectedModel = listFiguras.getSelectedValue();
+
+				// Quitar la seleccion de la figura
+				if (e.getExtendedKeyCode() == VK_ESCAPE && selectedModel != null) {
+					logger.append(selectedModel.getNombre() + " deseleccionado.");
+					listFiguras.clearSelection();
+					return;
+				}
+
+				if (selectedModel == null || !selectedModel.canDraw()) {
+					return;
+				}
+
+				switch (e.getExtendedKeyCode()) {
+					case VK_W -> // Up
+
+						logger.append("[W ↑] " + selectedModel.getNombre() + "\n");
+					case VK_S -> // Down
+
+						logger.append("[S ↓] " + selectedModel.getNombre() + "\n");
+
+					case VK_A -> // Left
+
+						logger.append("[A ←] " + selectedModel.getNombre() + "\n");
+
+					case VK_D -> // Right
+
+						logger.append("[D →] " + selectedModel.getNombre() + "\n");
+
+					case VK_Q -> // Rotate left
+
+						logger.append("[Q ↶] " + selectedModel.getNombre() + "\n");
+
+					case VK_E -> // Rotate right
+
+						logger.append("[E ↷] " + selectedModel.getNombre() + "\n");
+
+					case VK_SHIFT -> // Zoom in
+
+						logger.append("[Shift →|←] " + selectedModel.getNombre() + "\n");
+
+					case VK_CONTROL -> // Zoom out
+
+						logger.append("[Ctrl ←█→] " + selectedModel.getNombre() + "\n");
+				}
+
+			}
+
+		});
 
 		/* leftPanel components & design */
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
@@ -175,11 +241,18 @@ public class Pizarra extends JFrame implements Runnable {
 		listFiguras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		listFiguras.addListSelectionListener((ListSelectionEvent e) -> {
-			
+
 			listModel.unselectAll();
 
-			listFiguras.getSelectedValue().setSelected(true);
-			logger.append(listFiguras.getSelectedValue().getNombre() + " seleccionado.\n");
+			var selectedModel = listFiguras.getSelectedValue();
+
+			if (selectedModel == null) {
+				repaint();
+				return;
+			}
+
+			selectedModel.setSelected(true);
+			logger.append(selectedModel.getNombre() + " seleccionado.\n");
 			repaint();
 		});
 

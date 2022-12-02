@@ -48,7 +48,7 @@ public class CanvasPanel extends JPanel {
 		
 		System.out.println("Pintado figuras");
 
-		for (var it : figurasModel) {
+		for (var it : figurasModel.sort()) {
 			it.dibujar(g2);
 		}
 

@@ -29,14 +29,14 @@ public class ListFigurasModel extends AbstractListModel<FiguraModel> implements 
 
 	}
 
-	public void unselectAll(){
-	
+	public void unselectAll() {
+
 		for (var model : this) {
-				model.setSelected(false);
-			}
-		
+			model.setSelected(false);
+		}
+
 	}
-	
+
 	public boolean addElement(FiguraModel figura) {
 
 		int index = indexOf(figura);
@@ -148,4 +148,28 @@ public class ListFigurasModel extends AbstractListModel<FiguraModel> implements 
 		return (FiguraModel[]) data.toArray();
 	}
 
+	public ListFigurasModel sort() {
+
+		ListFigurasModel other = new ListFigurasModel();
+
+		// Buscar por los no seleccionados e ingresarlos al inicio para dibujarlos primero
+		for (var it : this) {
+
+			if (!it.isSelected()) {
+				other.addElement(it);
+			}
+
+		}
+
+		// Luego añadir los seleccionados para que aparezcan siempre arriba de los demás
+		for (var it : this) {
+
+			if (it.isSelected()) {
+				other.addElement(it);
+			}
+
+		}
+
+		return other;
+	}
 }
