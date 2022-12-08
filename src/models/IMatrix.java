@@ -3,27 +3,28 @@ package models;
 /**
  *
  * @author Honorio Acosta Ruiz
+ * @param <T>
  */
-public interface IMatrix {
+public interface IMatrix<T extends Number> {
 
 	void producto(MatrixModel other);
 
-	void escalar(int escala);									// Zoom in/out
+	void escalar(T escala);									// Zoom in/out
 
-	void escalarAt(int variableIndex, int escala);				// Zoom in/out At variableIndex
+	void escalarAt(int variableIndex, T escala);				// Zoom in/out At variableIndex
 
 	//void escalarY(int escalaY);							// Zoom in/out Y
-	void escalar(int[] escalas);						  // Zoom in/out Y
+	void escalar(T[] escalas);						  // Zoom in/out Y
 
 	void rotacion(double angulo);							// Rotate left/right
 
-	void traslacion(int[] ts);							  // Up | Down | Left | Right | 
+	void traslacion(T[] ts);							  // Up | Down | Left | Right | 
 
-	void traslacionAt(int variableIndex, int t);
+	void traslacionAt(int variableIndex, T t);
 
-	boolean addPoint(int[] point);
+	boolean addPoint(T[] point);
 
-	boolean setValueAt(int row, int column, int value);
+	boolean setValueAt(int row, int column, T value);
 
-	int get(int row, int column);
+	T get(int row, int column);
 }

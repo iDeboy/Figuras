@@ -9,36 +9,36 @@ import java.util.Iterator;
  *
  * @author Honorio Acosta Ruiz
  */
-public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
+public class MatrixModel implements IMatrix<Double>, Iterable<ArrayList<Double>> {
 
 	public final MatrixModel IDENTITY;
 
 	private final int rows;
 	private final int columns;
 	private final boolean identity;
-	private ArrayList<Integer>[] matrix;
+	private ArrayList<Double>[] matrix;
 
 	public MatrixModel(int rows, int columns) {
-		this(rows, columns, 0);
+		this(rows, columns, 0d);
 	}
 
-	public MatrixModel(int rows, int columns, int diagonal) {
+	public MatrixModel(int rows, int columns, Double diagonal) {
 		this(rows, columns, diagonal, false);
 	}
 
 	public MatrixModel(int orden) {
-		this(orden, 1, false);
+		this(orden, 1d, false);
 	}
 
 	private MatrixModel(int orden, boolean identity) {
-		this(orden, 1, identity);
+		this(orden, 1d, identity);
 	}
 
-	private MatrixModel(int orden, int diagonal, boolean identity) {
+	private MatrixModel(int orden, Double diagonal, boolean identity) {
 		this(orden, orden, diagonal, identity);
 	}
 
-	private MatrixModel(int rows, int columns, int diagonal, boolean identity) {
+	private MatrixModel(int rows, int columns, Double diagonal, boolean identity) {
 		this.rows = rows;
 		this.columns = columns;
 		this.identity = identity;
@@ -56,7 +56,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 			matrix[i] = new ArrayList<>();
 
 			for (int j = 0; j < columns; j++) {
-				matrix[i].add(0);
+				matrix[i].add(0d);
 			}
 
 		}
@@ -73,10 +73,10 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 		return _identity;
 	}
 
-	private void initMatrixWithDiagonal(int diagonalNumber) {
+	private void initMatrixWithDiagonal(Double diagonalNumber) {
 
 		if (this.isIdentity()) {
-			diagonalNumber = 1;
+			diagonalNumber = 1d;
 		}
 
 		for (int pointIndex = 0; pointIndex < this.columns; pointIndex++) {
@@ -93,7 +93,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 
 	}
 
-	private boolean _addPoint(int[] point) {
+	private boolean _addPoint(Double[] point) {
 
 		if (rows != point.length) {
 			return false;
@@ -112,7 +112,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 	}
 
 	@Override
-	public boolean addPoint(int[] point) {
+	public boolean addPoint(Double[] point) {
 
 		if (this.isIdentity()) {
 			return false;
@@ -121,7 +121,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 		return _addPoint(point);
 	}
 
-	private boolean _setValueAt(int row, int column, int value) {
+	private boolean _setValueAt(int row, int column, Double value) {
 
 		if (column < 0 || row < 0) {
 			return false;
@@ -144,7 +144,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 	}
 
 	@Override
-	public boolean setValueAt(int row, int column, int value) {
+	public boolean setValueAt(int row, int column, Double value) {
 
 		if (this.isIdentity()) {
 			return false;
@@ -155,7 +155,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 	}
 
 	@Override
-	public int get(int row, int column) {
+	public Double get(int row, int column) {
 		return matrix[row].get(column);
 	}
 
@@ -165,7 +165,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 			return null;
 		}
 
-		MatrixModel product = new MatrixModel(matrix1.rows, matrix2.columns, 0, false);
+		MatrixModel product = new MatrixModel(matrix1.rows, matrix2.columns, 0d, false);
 
 		for (int i = 0; i < matrix1.rows; i++) {
 
@@ -189,8 +189,8 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 
 		MatrixModel aux = new MatrixModel(3, points.size());
 
-		int[] xs = points.getXPoints();
-		int[] ys = points.getYPoints();
+		Double[] xs = points.getXPoints();
+		Double[] ys = points.getYPoints();
 
 		for (int i = 0; i < xs.length; i++) {
 			aux.setValueAt(0, i, xs[i]);
@@ -201,7 +201,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 		}
 
 		for (int i = 0; i < points.size(); i++) {
-			aux.setValueAt(2, i, 1);
+			aux.setValueAt(2, i, 1d);
 		}
 
 		return aux;
@@ -224,9 +224,9 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 	}
 
 	@Override
-	public void escalar(int escala) {
+	public void escalar(Double escala) {
 
-		int[] escalaAll = new int[rows - 1];
+		Double[] escalaAll = new Double[rows - 1];
 
 		for (int i = 0; i < escalaAll.length; i++) {
 			escalaAll[i] = escala;
@@ -236,11 +236,11 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 	}
 
 	@Override
-	public void escalarAt(int variableIndex, int escala) {
+	public void escalarAt(int variableIndex, Double escala) {
 
 		MatrixModel matrizEscala = new MatrixModel(rows);
 
-		matrizEscala.initMatrixWithDiagonal(1);
+		matrizEscala.initMatrixWithDiagonal(1d);
 
 		for (int pointIndex = 0; pointIndex < matrizEscala.columns; pointIndex++) {
 
@@ -257,9 +257,8 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 		producto(matrizEscala);
 	}
 
-
 	@Override
-	public void escalar(int[] escalas) {
+	public void escalar(Double[] escalas) {
 
 		if (escalas.length > rows - 1) { // 3 2
 			return;
@@ -280,22 +279,22 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 
 		MatrixModel matrizRotacion = new MatrixModel(rows);
 
-		matrizRotacion.initMatrixWithDiagonal(1);
+		matrizRotacion.initMatrixWithDiagonal(1d);
 
-		matrizRotacion._setValueAt(0, 0, (int) Math.cos(Math.toRadians(angulo)));
-		matrizRotacion._setValueAt(0, 1, (int) -Math.sin(Math.toRadians(angulo)));
-		matrizRotacion._setValueAt(1, 0, (int) Math.sin(Math.toRadians(angulo)));
-		matrizRotacion._setValueAt(1, 1, (int) Math.cos(Math.toRadians(angulo)));
+		matrizRotacion._setValueAt(0, 0, Math.cos(Math.toRadians(angulo)));
+		matrizRotacion._setValueAt(0, 1, -Math.sin(Math.toRadians(angulo)));
+		matrizRotacion._setValueAt(1, 0, Math.sin(Math.toRadians(angulo)));
+		matrizRotacion._setValueAt(1, 1, Math.cos(Math.toRadians(angulo)));
 
 		producto(matrizRotacion);
 	}
 
 	@Override
-	public void traslacionAt(int variableIndex, int t) {
+	public void traslacionAt(int variableIndex, Double t) {
 
 		MatrixModel matrizTraslacion = new MatrixModel(rows);
 
-		matrizTraslacion.initMatrixWithDiagonal(1);
+		matrizTraslacion.initMatrixWithDiagonal(1d);
 
 		for (int varIndex = 0; varIndex < matrizTraslacion.rows - 1; varIndex++) {
 
@@ -310,7 +309,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 	}
 
 	@Override
-	public void traslacion(int[] ts) {
+	public void traslacion(Double[] ts) {
 
 		if (ts.length > rows - 1) {
 			return;
@@ -322,11 +321,11 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 
 	}
 
-	public static ArrayList<String> arrayIntToString(ArrayList<Integer> integers) {
+	public static ArrayList<String> arrayIntToString(ArrayList<Double> doubles) {
 
 		ArrayList<String> result = new ArrayList<>();
 
-		for (var integer : integers) {
+		for (var integer : doubles) {
 			result.add(String.valueOf(integer));
 		}
 
@@ -368,17 +367,17 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 		return result;
 	}
 
-	public ArrayList<Integer>[] toArray() {
+	public ArrayList<Double>[] toArray() {
 		return matrix.clone();
 	}
 
-	public Point[] toPoints() {
+	public PointModel[] toPoints() {
 
-		Point[] points = new Point[columns];
+		PointModel[] points = new PointModel[columns];
 
 		for (int i = 0; i < columns; i++) {
 
-			points[i] = new Point(get(0, i), get(1, i));
+			points[i] = new PointModel(get(0, i), get(1, i));
 
 		}
 
@@ -399,7 +398,7 @@ public class MatrixModel implements IMatrix, Iterable<ArrayList<Integer>> {
 	}
 
 	@Override
-	public Iterator<ArrayList<Integer>> iterator() {
+	public Iterator<ArrayList<Double>> iterator() {
 		return Arrays.asList(matrix).iterator();
 	}
 

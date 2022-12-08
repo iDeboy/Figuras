@@ -33,16 +33,16 @@ public class CirculoModel extends FiguraModel {
 			g.setColor(background);
 		}
 
-		Point p1 = puntos.getValueAt(0);
-		Point p2 = puntos.getValueAt(1);
+		PointModel p1 = puntos.getValueAt(0);
+		PointModel p2 = puntos.getValueAt(1);
 
-		int distance = PointsModel.distance(p1, p2);
+		int distance = p1.distance(p2).intValue();
 
-		g.drawOval(p1.x - distance, p1.y - distance, 2 * distance, 2 * distance);
+		g.drawOval(p1.x.intValue() - distance, p1.y.intValue() - distance, 2 * distance, 2 * distance);
 
 		g.setStroke(new BasicStroke(2));
 		g.setColor(background);
-		g.fillOval(p1.x - distance, p1.y - distance, 2 * distance, 2 * distance);
+		g.fillOval(p1.x.intValue() - distance, p1.y.intValue() - distance, 2 * distance, 2 * distance);
 
 		// Reset color
 		g.setColor(Color.BLACK);
@@ -62,7 +62,7 @@ public class CirculoModel extends FiguraModel {
 		}
 
 		if (canDraw()) {
-			radio = "Radio=" + PointsModel.distance(puntos.getValueAt(0), puntos.getValueAt(1));
+			radio = "Radio=" + puntos.getValueAt(0).distance(puntos.getValueAt(1));
 			valores.add(radio);
 		}
 

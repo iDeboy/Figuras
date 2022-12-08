@@ -31,11 +31,11 @@ public class TrianguloModel extends FiguraModel {
 			g.setColor(background);
 		}
 
-		g.drawPolygon(puntos.getXPoints(), puntos.getYPoints(), puntos.size());
+		g.drawPolygon(puntos.getXPointsInt(), puntos.getYPointsInt(), puntos.size());
 
 		g.setStroke(new BasicStroke(2));
 		g.setColor(background);
-		g.fillPolygon(puntos.getXPoints(), puntos.getYPoints(), puntos.size());
+		g.fillPolygon(puntos.getXPointsInt(), puntos.getYPointsInt(), puntos.size());
 
 		// Reset color
 		g.setColor(Color.BLACK);

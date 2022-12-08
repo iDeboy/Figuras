@@ -2,28 +2,26 @@ package models;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.Iterator;
 
 /**
  *
  * @author Honorio Acosta Ruiz
  */
-public class PointsModel implements Iterable<Point>, IDrawable {
+public class PointsModel implements Iterable<PointModel>, IDrawable {
 
-	private Point[] puntos;
+	private PointModel[] puntos;
 
 	public PointsModel() {
 		this(0);
 	}
 
 	public PointsModel(int capacity) {
-		puntos = new Point[capacity];
+		puntos = new PointModel[capacity];
 	}
 
-	public boolean setValueAt(int index, Point point) {
+	public boolean setValueAt(int index, PointModel point) {
 
 		try {
 			puntos[index] = point;
@@ -34,7 +32,18 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 		return true;
 	}
 
-	public Point getValueAt(int index) {
+	public boolean setValueAt(int index, Point point) {
+
+		try {
+			puntos[index] = new PointModel((double) point.x, (double) point.y);
+		} catch (Exception ex) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public PointModel getValueAt(int index) {
 
 		try {
 			return puntos[index];
@@ -43,6 +52,7 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 		}
 	}
 
+	@Deprecated
 	public static int distance(Point p1, Point p2) {
 
 		int aux = (int) (Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
@@ -54,15 +64,15 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 		return puntos.length;
 	}
 
-	public Iterator<Point> iterator() {
+	public Iterator<PointModel> iterator() {
 		return Arrays.asList(puntos).iterator();
 	}
 
-	public void up(int c) {
+	public void up(Double c) {
 
 		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
 
-		MatrixModel aux = new MatrixModel(3, 3, 1);
+		MatrixModel aux = new MatrixModel(3, 3, 1d);
 
 		aux.traslacionAt(1, -c);
 
@@ -71,11 +81,11 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 		puntos = matrixPoints.toPoints();
 	}
 
-	public void down(int c) {
+	public void down(Double c) {
 
 		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
 
-		MatrixModel aux = new MatrixModel(3, 3, 1);
+		MatrixModel aux = new MatrixModel(3, 3, 1d);
 
 		aux.traslacionAt(1, c);
 
@@ -85,11 +95,11 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 
 	}
 
-	public void right(int c) {
+	public void right(Double c) {
 
 		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
 
-		MatrixModel aux = new MatrixModel(3, 3, 1);
+		MatrixModel aux = new MatrixModel(3, 3, 1d);
 
 		aux.traslacionAt(0, c);
 
@@ -98,11 +108,11 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 		puntos = matrixPoints.toPoints();
 	}
 
-	public void left(int c) {
+	public void left(Double c) {
 
 		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
 
-		MatrixModel aux = new MatrixModel(3, 3, 1);
+		MatrixModel aux = new MatrixModel(3, 3, 1d);
 
 		aux.traslacionAt(0, -c);
 
@@ -116,13 +126,13 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 
 		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
 
-		MatrixModel aux = new MatrixModel(3, 3, 1);
+		MatrixModel aux = new MatrixModel(3, 3, 1d);
 
 		var sorted = sort();
 
-		int[] nMin = new int[]{-sorted[0].x, -sorted[0].y};
-		int[] pMin = new int[]{sorted[0].x, sorted[0].y};
-		
+		Double[] nMin = new Double[]{-sorted[0].x, -sorted[0].y};
+		Double[] pMin = new Double[]{sorted[0].x, sorted[0].y};
+
 		aux.traslacion(nMin);
 		aux.rotacion(angulo);
 		aux.traslacion(pMin);
@@ -137,12 +147,12 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 
 		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
 
-		MatrixModel aux = new MatrixModel(3, 3, 1);
-		
+		MatrixModel aux = new MatrixModel(3, 3, 1d);
+
 		var sorted = sort();
 
-		int[] nMin = new int[]{-sorted[0].x, -sorted[0].y};
-		int[] pMin = new int[]{sorted[0].x, sorted[0].y};
+		Double[] nMin = new Double[]{-sorted[0].x, -sorted[0].y};
+		Double[] pMin = new Double[]{sorted[0].x, sorted[0].y};
 
 		aux.traslacion(nMin);
 		aux.rotacion(-angulo);
@@ -154,17 +164,17 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 
 	}
 
-	public void zoomIn(int c) {
+	public void zoomIn(Double c) {
 
 		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
 
-		MatrixModel aux = new MatrixModel(3, 3, 1);
+		MatrixModel aux = new MatrixModel(3, 3, 1d);
 
 		var sorted = sort();
-		
-		int[] nMin = new int[]{-sorted[0].x, -sorted[0].y};
-		int[] pMin = new int[]{sorted[0].x, sorted[0].y};
-		
+
+		Double[] nMin = new Double[]{-sorted[0].x, -sorted[0].y};
+		Double[] pMin = new Double[]{sorted[0].x, sorted[0].y};
+
 		aux.traslacion(nMin);
 		aux.escalar(c);
 		aux.traslacion(pMin);
@@ -175,19 +185,19 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 
 	}
 
-	public void zoomOut(int c) {
+	public void zoomOut(Double c) {
 
 		MatrixModel matrixPoints = MatrixModel.matrixFromPoints(this);
 
-		MatrixModel aux = new MatrixModel(3, 3, 1);
+		MatrixModel aux = new MatrixModel(3, 3, 1d);
 
 		var sorted = sort();
-		
-		int[] nMin = new int[]{-sorted[0].x, -sorted[0].y};
-		int[] pMin = new int[]{sorted[0].x, sorted[0].y};
-		
+
+		Double[] nMin = new Double[]{-sorted[0].x, -sorted[0].y};
+		Double[] pMin = new Double[]{sorted[0].x, sorted[0].y};
+
 		aux.traslacion(nMin);
-		aux.escalar(1/c);
+		aux.escalar(1d / c);
 		aux.traslacion(pMin);
 
 		matrixPoints.producto(aux);
@@ -196,34 +206,56 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 
 	}
 
-	public Point[] sort() {
+	public PointModel[] sort() {
 
-		Point[] aux = puntos.clone();
+		PointModel[] aux = puntos.clone();
 
 		Arrays.sort(aux, (o1, o2) -> {
-			return o1.distance(0, 0) < o2.distance(0, 0) ? -1 : 1;
+			return o1.distance(0d, 0d) < o2.distance(0d, 0d) ? -1 : 1;
 		});
 
 		return aux;
 	}
-	
-	public int[] getXPoints() {
 
-		int[] xPoints = new int[size()];
+	public Double[] getXPoints() {
+
+		Double[] xPoints = new Double[size()];
 
 		for (int i = 0; i < size(); i++) {
-			xPoints[i] = puntos[i].x;
+			xPoints[i] = puntos[i].getX();
 		}
 
 		return xPoints;
 	}
 
-	public int[] getYPoints() {
+	public Double[] getYPoints() {
+
+		Double[] yPoints = new Double[size()];
+
+		for (int i = 0; i < size(); i++) {
+			yPoints[i] = puntos[i].getY();
+		}
+
+		return yPoints;
+	}
+
+	public int[] getXPointsInt() {
+
+		int[] xPoints = new int[size()];
+
+		for (int i = 0; i < size(); i++) {
+			xPoints[i] = puntos[i].getX().intValue();
+		}
+
+		return xPoints;
+	}
+
+	public int[] getYPointsInt() {
 
 		int[] yPoints = new int[size()];
 
 		for (int i = 0; i < size(); i++) {
-			yPoints[i] = puntos[i].y;
+			yPoints[i] = puntos[i].getY().intValue();
 		}
 
 		return yPoints;
@@ -249,7 +281,7 @@ public class PointsModel implements Iterable<Point>, IDrawable {
 				continue;
 			}
 
-			g.fillRect(p.x, p.y, 2, 2);
+			g.fillRect(p.getX().intValue(), p.getY().intValue(), 2, 2);
 		}
 
 	}

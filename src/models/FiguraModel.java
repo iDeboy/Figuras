@@ -10,7 +10,7 @@ import java.util.Random;
  *
  * @author Honorio Acosta Ruiz
  */
-public abstract class FiguraModel implements Iterable<Point>, IDrawable {
+public abstract class FiguraModel implements Iterable<PointModel>, IDrawable {
 
 	private int id;
 	protected String nombre;
@@ -69,7 +69,7 @@ public abstract class FiguraModel implements Iterable<Point>, IDrawable {
 		return nombre;
 	}
 
-	public Iterator<Point> iterator() {
+	public Iterator<PointModel> iterator() {
 		return puntos.iterator();
 	}
 
@@ -88,7 +88,7 @@ public abstract class FiguraModel implements Iterable<Point>, IDrawable {
 				continue;
 			}
 
-			puntosStr.add("\tP" + (i + 1) + "(" + this.puntos.getValueAt(i).x + ", " + this.puntos.getValueAt(i).y + ")");
+			puntosStr.add("\tP" + (i + 1) + "(" + this.puntos.getValueAt(i).x.intValue() + ", " + this.puntos.getValueAt(i).y.intValue() + ")");
 			
 		}
 
